@@ -1,7 +1,9 @@
+<?php $headerUrl = "/"; ?>
+
 <header>
     <div class="links">
-        <a href="/">Главная</a>
-        <a href="/watch-meme.php">Смотреть мемы</a>
-        <a href="/form.php">Добавить мем</a>
+        <a href="<?= $headerUrl ?>">Главная</a>
+        <a href="<?= $headerUrl ?>watch-meme.php">Смотреть мемы</a>
+        <a href="<?= $headerUrl ?>form.php">Добавить мем</a>
     </div>
 </header>

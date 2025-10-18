@@ -4,6 +4,7 @@ require_once "lib/mysqli.php";
 
 $result = get_meme();
 $break = 0;
+$url = "/watch-meme.php";
 
 ?>
 
@@ -45,7 +46,7 @@ $break = 0;
         </div>
     </div>
     <div>
-        <a href="/watch-meme.php" style="margin-top: 30px;">Смотреть мемы без регистрации</a>
+        <a href="<?= $url ?>" style="margin-top: 30px;">Смотреть мемы без регистрации</a>
     </div>
 </main>
 </body>

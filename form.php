@@ -1,15 +1,16 @@
 <?php
 
-require_once "lib/setting.php";
 require_once "lib/mysqli.php";
 require_once "lib/utils.php";
 
-$url = $_SESSION['server_url']."form.php";
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+$url = "/form.php";
+
+if($_SERVER['REQUEST_METHOD'] == "POST") {
     $data = [
-        "name" => $_POST['name'] ?? '',
-        "desc" => $_POST['description'] ?? '',
+        "name" => $_POST['name'],
+        "desc" => $_POST['description'],
         "file_tmp" => $_FILES['file']['tmp_name'],
         "file_path" => $_FILES['file']['full_path'],
         "file_size" => $_FILES['file']['size'],
@@ -17,24 +18,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     ];
 
     if( 
-        empty($data['name']) ||
-        empty($data['desc']) ||
-        empty($data['file_tmp']) 
+        !isset($data['name']) ||
+        !isset($data['desc']) ||
+        !isset($data['file_tmp']) 
      ) {
         $_SESSION['error'] = 'Заполните все поля';
         header("Location: $url");
         exit;
     }
 
-    $date = date("Y-m-d");
-    $time = date("H-i-s");
-    $random = rand(100, 200);
-    $path = md5($_FILES['file']['full_path']);
+    $destination = decode_path_img($data['file_path']);
 
-    $fileExt = strtolower(pathinfo($data['file_path'], PATHINFO_EXTENSION));
-    $destination = "static/img/($random)-$date-($time)-$path.$fileExt";
-
-    $is_upload = write_upload_file(
+    $is_upload = move_uploaded_file(
         $data['file_tmp'], 
         $destination
     );
